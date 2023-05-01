@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="navbar">
+        <a href="/app_list/">All</a>
+        {% for rubric in rubrics %}
+            <a href="/app_list/{{ rubric.pk }}">{{rubric.name}}</a>
+        {% endfor %}
+        {% if request.user.is_staff %}
+            <a href="{% url 'create' %}" class="right">Create post</a>
+            <a href="{% url 'manage' %}" class="right">Manage Posts</a>
+        {% endif %}
+    </div>
+
+    {% for product in products %}
+        <div class="row">
+            <div class="side">
+                {% if product.image %}
+                    <div>
+                        <img src="{{ product.image.url }}" alt="" class="image4">
+                    </div>
+                {% else %}
+                   <p></p>
+                {% endif %}
+            </div>
+            <div class="main">
+                <h2>{{ product.title }}</h2>
+                <h5>Category: {{ product.rubric }}</h5>
+                <p>Price: <b>{{ product.price }}$</b></p>
+                <p class="contents">{{ product.content }}</p>
+                <h5>Published at: {{ product.published }}</h5>
+                <br>
+              </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}
